@@ -1,1 +1,2 @@
-# 2015-aug-ng-enterprise-app
+# Sample Enterprise Web Application Front-end
+## <web/F> August 8-9, 2015
