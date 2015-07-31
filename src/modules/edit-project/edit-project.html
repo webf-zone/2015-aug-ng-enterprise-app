@@ -1,0 +1,39 @@
+<div class="edit-project-container">
+    <h1>Edit Project</h1>
+    <form>
+        <div class="small-8 columns">
+            <div class="row">
+                <div class="small-3 columns">
+                    <label for="prj_name" class="right inline">Project Name</label>
+                </div>
+                <div class="small-9 columns">
+                    <input type="text" id="prj_name" placeholder="Enter Project's Name">
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-3 columns">
+                    <label for="prj_desc" class="right inline">Project Description</label>
+                </div>
+                <div class="small-9 columns">
+                    <input type="text" id="prj_desc" placeholder="Enter Project's Description">
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-3 columns">
+                    <label class="right inline">Number of Members</label>
+                </div>
+                <div class="small-9 columns">
+                    <div></div>
+                </div>
+            </div>
+            <div class="list_of_members row" ng-repeat="member in members">
+                <label>Check/Uncheck members to add and remove</label>
+                <input id="checkbox1" type="checkbox">
+                <label for="checkbox1">Checkbox 1</label>
+                <input id="checkbox2" type="checkbox">
+                <label for="checkbox2">Checkbox 2</label>
+            </div>
+        </div>
+</div>
+</form>
+</div>
