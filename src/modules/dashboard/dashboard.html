@@ -1,17 +1,35 @@
-<div class="dashboard-container">
-    <h1>Dashboard</h1>
-    <div class="prj_mgmt_table">
-        <div class="row">
-            <div class="small-4 columns">Project Name</div>
-            <div class="small-5 columns">Description</div>
-            <div class="small-2 columns">Number of members</div>
-            <div class="small-2 columns"></div>
-        </div>
-        <div ng-repeat="prj in projects" class="row">
-            <div class="small-4 columns">{{prj.name}}</div>
-            <div class="small-5 columns">{{prj.desc}}</div>
-            <div class="small-2 columns">{{prj.no_of_members}}</div>
-            <input type="button" value="Edit" class="button small-2 columns" ng-click="editProject(prj)" />
-        </div>
+<div class="dashboard-container row">
+
+    <div class="columns small-12">
+        <h1>Project dashboard</h1>
+
     </div>
+
+    <div class="columns small-12">
+        <table class="project-list-table">
+            <thead>
+                <tr>
+                    <th>Selection</th>
+                    <th>Project Name</th>
+                    <th>Description</th>
+                    <th>Members</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="project in vm.projects">
+                    <td>Checkbox</td>
+                    <td>{{project.name}}</td>
+                    <td>{{project.description}}</td>
+                    <td>{{project.memberCount}}</td>
+                    <td>
+                        <a href="#" ng-click="$event.preventDefault(); vm.editProject(project)">Edit</a>
+                        <span>|</span>
+                        <a href="#" ng-click="vm.editProject(project)">Details</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
 </div>

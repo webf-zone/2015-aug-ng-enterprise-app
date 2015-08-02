@@ -12,7 +12,8 @@
             .state("dashboard", {
                 url: "/dashboard",
                 templateUrl: "modules/dashboard/dashboard.html",
-                controller: "DashboardController"
+                controller: "DashboardController",
+                controllerAs: "vm"
             })
             .state("edit-project", {
                 url: "/edit-project",

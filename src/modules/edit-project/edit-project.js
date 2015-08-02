@@ -6,13 +6,9 @@
     app.controller("ProjectManagerController", ProjectManagerController);
 
     /*@ngInject*/
-    function ProjectManagerController($scope, $state, getProjectList) {
+    function ProjectManagerController($scope, $state) {
 
         $scope.editProject = editProject;
-
-        getProjectList.getProjectList().then(function (data) {
-            $scope.projects = data.projects;
-        });
 
         function editProject() {
             $state.go("edit-project");

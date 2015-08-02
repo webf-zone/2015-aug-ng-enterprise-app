@@ -6,12 +6,14 @@
     app.controller("DashboardController", DashboardController);
 
     /*@ngInject*/
-    function DashboardController($scope, $state, projectFactory) {
+    function DashboardController($state, projectStore) {
 
-        $scope.editProject = editProject;
+        var vm = this;
 
-        projectFactory.getProjectList().then(function (data) {
-            $scope.projects = data.projects;
+        vm.editProject = editProject;
+
+        projectStore.getAll().then(function (projects) {
+            vm.projects = projects;
         });
 
         function editProject() {

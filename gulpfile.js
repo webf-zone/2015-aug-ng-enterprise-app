@@ -69,7 +69,7 @@ var paths = (function () {
         "commons/js/**/*.js",
         "api-factories/**/*.js",
         "directives/**/*.js",
-        "entitities/**/*.js",
+        "entities/**/*.js",
         "factories/**/*.js",
         "modules/**/*.js",
         "services/**/*.js",

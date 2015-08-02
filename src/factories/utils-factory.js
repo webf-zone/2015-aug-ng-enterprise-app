@@ -9,7 +9,8 @@
     function utilsFactory() {
 
         return {
-            constructUrl: _constructUrl
+            constructUrl: _constructUrl,
+            isPromise: _isPromise
         };
     }
 
@@ -23,6 +24,17 @@
         });
 
         return url;
+    }
+
+    function _isPromise(obj) {
+
+        var isItPromise = false;
+
+        if (!!obj && obj.then instanceof Function) {
+            isItPromise = true;
+        }
+
+        return isItPromise;
     }
 
 })();
