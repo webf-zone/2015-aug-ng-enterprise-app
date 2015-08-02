@@ -1,4 +1,4 @@
-(function() {
+(function () {
     "use strict";
 
     var app = angular.module("PrjMgmtModule");
@@ -9,11 +9,11 @@
 
         $scope.editProject = editProject;
 
-        prjManager.getPrjList().then(function(data) {
+        prjManager.getPrjList().then(function (data) {
             $scope.projects = data.projects;
         });
 
-        function editProject(prj) {
+        function editProject() {
             $state.go("edit-project");
         }
 

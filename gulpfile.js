@@ -1,5 +1,6 @@
-/* Gulp Build file
- * Options related to JSHint go below
+/* @author Harshal Patil (harshal.rp@gmail.com)
+ * @description Gulp build script
+ * @version 1.0.0
  */
 
 /* global require */
@@ -7,7 +8,6 @@
 
 // Gulp specific
 var gulp = require("gulp");
-var gzip = require("gulp-gzip");
 var tar = require("gulp-tar");
 var concat = require("gulp-concat");
 var runSequence = require("run-sequence");
@@ -20,59 +20,68 @@ var colors = gutil.colors;
 // File handling related modules
 var del = require("del");
 var fs = require("fs");
-var glob = require("glob");
-var path = require("path");
 
 // Stream related modules
 var merge = require("merge-stream");
 var through2 = require("through2");
 
-// Network modules
-var request = require("request");
-
 // CSS, SASS and styling related modules
 var cssimport = require("gulp-cssimport");
 var sass = require("gulp-sass");
 var minifyCSS = require("gulp-minify-css");
-var autoprefixer = require('autoprefixer-core');
+var autoprefixer = require("autoprefixer-core");
 var postCss = require("gulp-postcss");
 
 // JavaScript related modules
-var jshint = require("gulp-jshint");
-var jshintStylish = require("jshint-stylish");
+var eslint = require("gulp-eslint");
 var uglify = require("gulp-uglify");
 
+// SVG and sprite related modules
+var svgSprite = require("gulp-svg-sprite");
+
 // Testing related modules
-var karma = require('karma').server;
+var KarmaServer = require("karma").Server;
 
 // Local variables
-var pkg = require("./package.json");
-var pluginOpts = pkg.samplePluginProps;
-var archiveName = pkg.name + "." + pkg.version + pluginOpts.archiveExtension;
 var buildMode = process.argv[2] || "release";
-var browsers = pluginOpts.targetBrowsers;
+var browsers = ["last 2 version"];
 
 // System wide paths
-var paths = (function() {
+var paths = (function () {
+
+    var jsFiles, cssMain, resources;
+
+    resources = [];
+    cssMain = "commons/scss/main.scss";
+
+    jsFiles = [
+        "commons/js/index.js",
+        "commons/**/*.js",
+        "modules/**/*.js"
+    ];
+
     return {
         src: "./src/",
-        build: pluginOpts.buildDestination,
-        dest: pluginOpts.buildDestination + "/",
-        preloads: pluginOpts.preloads,
-        preloadFolder: "libraries/",
-        cssMain: pluginOpts.cssMain,
-        jsFiles: pluginOpts.jsFiles
+        icons: "./vendor/icons/",
+        iconSprite: "sprite.symbol.svg",
+        dest: "./dist",
+        resources: resources,
+        cssMain: cssMain,
+        jsFiles: jsFiles,
     };
+
 })();
 
 // File selection filters
-var filters = (function() {
+var filters = (function () {
     return {
         all: "**/*.*",
-        js: "**/*.js",
+        js: "**/*.{js,jst}",
         css: "**/*.css",
+        svg: "**/*.svg",
         scss: "**/*.scss",
-        jscss: "**/*.{js,css,scss}",
+        images: "**/*.{jpg,jpeg,gif,png}",
+        jscss: "**/*.{js,jst,css,scss}",
         html: "**/*.html"
     };
 })();
@@ -80,152 +89,144 @@ var filters = (function() {
 // Clean the dist directory
 del.sync([paths.dest]);
 
-gulp.task("copy", function() {
-    return gulp.src([filters.all, "../package.json", "!" + filters.jscss], {
-            cwd: paths.src
-        })
+gulp.task("svg-sprite", function () {
+    var config = {
+        shape: {
+            id: {
+                separator: "-",
+                whitespace: "-",
+                generator: "icon-%s"
+            }
+        },
+        mode: {
+            inline: true,
+            symbol: {
+                dest: ".",
+                sprite: paths.iconSprite,
+                //example: true,
+                inline: true,
+            }
+        }
+    };
+
+    return gulp.src([filters.svg, "!" + paths.iconSprite], { base: paths.icons, cwd: paths.icons })
+        .pipe(svgSprite(config))
+        .pipe(gulp.dest(paths.icons));
+});
+
+gulp.task("copy", function () {
+
+    return gulp.src([filters.svg, filters.html, filters.images], { base: paths.cwd, cwd: paths.src })
         .pipe(gulp.dest(paths.dest));
 });
 
-gulp.task("jshint", function() {
-    return gulp.src([filters.js, filters.html], {
-            cwd: paths.src
-        })
-        .pipe(jshint.extract("auto"))
-        .pipe(jshint())
-        .pipe(jshint.reporter(jshintStylish))
-        .pipe(buildMode === "dev" ? gutil.noop() : jshint.reporter("fail"));
+gulp.task("resource", function (done) {
+
+    var streams = merge(),
+        resources = Object.keys(paths.resources);
+
+    if (resources.length > 0) {
+        resources.forEach(function (resource) {
+
+            var stream = gulp.src(resource, { cwd: paths.src })
+                .pipe(rename(function (path) {
+                    path.dirname = "";
+                }))
+                .pipe(gulp.dest(paths.dest + paths.resources[resource]));
+
+            streams.add(stream);
+        });
+
+        return streams;
+
+    } else {
+        done();
+    }
+
 });
 
-gulp.task("preload", ["jshint"], function() {
-
-    return gulp.src(paths.preloads, {
-            base: paths.src,
-            cwd: paths.src
-        })
-        .pipe(concat("load.js", {
-            newLine: ";"
-        }))
-        .pipe(buildMode === "dev" ? gutil.noop() : uglify())
-        .pipe(gulp.dest(paths.dest + paths.preloadFolder));
+gulp.task("eslint", function () {
+    return gulp.src([filters.js], { cwd: paths.src })
+        .pipe(eslint())
+        .pipe(eslint.format("stylish"))
+        .pipe(buildMode === "dev" ? gutil.noop() : eslint.failAfterError());
 });
 
-gulp.task("sass", function() {
-    return gulp.src([paths.cssMain], {
-            base: paths.src,
-            cwd: paths.src
-        })
+
+gulp.task("sass", function () {
+    return gulp.src([paths.cssMain], { base: paths.src, cwd: paths.src })
         .pipe(sass())
         .pipe(cssimport({
             extensions: ["css"]
         }))
-        .pipe(postCss([autoprefixer({
-            browsers: browsers
-        })]))
+        .pipe(postCss([autoprefixer({ browsers: browsers })]))
         .pipe(buildMode === "dev" ? gutil.noop() : minifyCSS())
         .pipe(gulp.dest(paths.dest));
 });
 
-gulp.task("jsbundle", function(done) {
+gulp.task("jsbundle", function () {
 
-    return gulp.src(paths.jsFiles, {
-            cwd: paths.src
-        })
-        .pipe(concat("app.js"))
+    return gulp.src(paths.jsFiles, { cwd: paths.src })
+        .pipe(concat("plugin-bundle.jst"))
         .pipe(buildMode === "dev" ? gutil.noop() : uglify())
-        .pipe(gulp.dest(paths.dest + "commons/js/"));
+        .pipe(gulp.dest(paths.dest));
 });
 
-gulp.task("watcher", function(done) {
+gulp.task("watcher", function (done) {
 
-    gulp.watch(paths.src + "index.html", function(event) {
+    gulp.watch([filters.svg, filters.html, filters.images], { cwd: paths.src }, function (event) {
         gutil.log("Modified:", colors.yellow(event.path));
-        runSequence("zip", "upload");
+
+        runSequence("copy");
     });
 
-    gulp.watch(paths.src + filters.js, function(event) {
+    gulp.watch(filters.js, { cwd: paths.src }, function (event) {
         gutil.log("Modified:", colors.yellow(event.path));
-        runSequence("jsbundle", "zip", "upload");
+
+        runSequence("jsbundle");
     });
 
-    gulp.watch([paths.src + filters.css, paths.src + filters.scss], function(event) {
+    gulp.watch([filters.css, filters.scss], { cwd: paths.src }, function (event) {
         gutil.log("Modified:", colors.yellow(event.path));
-        runSequence("sass", "zip", "upload");
+        runSequence("sass");
     });
 
     done();
 
 });
 
-gulp.task("ut", function(done) {
-    karma.start({
-        configFile: __dirname + '/karma.conf.js',
-        singleRun: true
-    }, done);
+gulp.task("ut", function (done) {
+    gulp.task("ut", function (done) {
+        var config = {
+            configFile: __dirname + "/karma.conf.js",
+            singleRun: true
+        };
+
+        new KarmaServer(config, done).start();
+    });
 });
 
 // Compress task
-gulp.task("compress", ["common"], function(done) {
-    runSequence("zip", done);
+gulp.task("upload", ["common", "ut"], function (done) {
+    // Add some TODO code
+
+    gutil.log(colors.bold.yellow("Uploaded bundle to server"));
+    done();
 });
 
-gulp.task("zip", function() {
-
-    gutil.log("Building package: ", colors.red(archiveName));
-
-    return gulp.src([paths.build + "**/**.*"], {
-            buffer: false
-        })
-        .pipe(tar(archiveName))
-        .pipe(gzip({
-            append: false
-        }))
-        .pipe(gulp.dest(".").on("finish", function() {
-            gutil.log(colors.bold("Package built"));
-        }));
-});
-
-// Just plain vanilla upload
-gulp.task("upload", function(done) {
-
-    var fileToUpload = "./" + archiveName;
-
-    gutil.log("Uploading package to Server");
-
-    request({
-        url: "http://localhost:8000/updatePlugin",
-        method: "POST",
-        formData: {
-            "f": fs.createReadStream(fileToUpload)
-        }
-    }, function(error) {
-        if (error) {
-            gutil.log(colors.bold.bgRed("COULD NOT UPLOAD THE PACKAGE"));
-            gutil.log(colors.bold("CHECK IF SERVER IS RUNNING"));
-        } else {
-            gutil.log(colors.bold.green("PACKAGE UPLOADED SUCCESSFULLY"));
-        }
-        done();
-    });
-
-});
 // Common task
-gulp.task("common", ["jshint", "copy", "preload", "sass", "jsbundle"]);
+gulp.task("common", ["eslint", "resource", "copy", "sass", "jsbundle"]);
 
 // dev mode task
-gulp.task("dev", ["common", "compress", "watcher"], function(done) {
-    gutil.log(colors.bold.yellow("Watchers Established. You can now start coding"));
-    runSequence("upload", done);
-});
-
-// test mode task
-gulp.task("test", ["common", "compress"], function(done) {
-    runSequence("ut", "upload", done);
+gulp.task("dev", ["common", "watcher"], function (done) {
+    gutil.log(colors.bold.yellow("Watchers Established. You can now start coding."));
+    done();
 });
 
 // production mode task
-gulp.task("release", ["common", "compress"], function(done) {
-    runSequence("ut", "upload", done);
+gulp.task("release", ["common", "upload"], function (done) {
+    gutil.log(colors.bold.yellow("Production build is ready."));
+    done();
 });
 
 gulp.task("default", ["release"]);

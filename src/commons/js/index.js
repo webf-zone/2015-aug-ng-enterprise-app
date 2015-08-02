@@ -1,10 +1,10 @@
-(function() {
+(function () {
 
     "use strict";
 
     var app = angular.module("PrjMgmtModule", ["ui.router"]);
 
-    app.config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider) {
+    app.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider) {
 
         $urlRouterProvider.otherwise("/dashboard");
 

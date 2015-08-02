@@ -1,4 +1,4 @@
-(function() {
+(function () {
     "use strict";
 
     var app = angular.module("PrjMgmtModule");
@@ -20,7 +20,7 @@
 
         function getPrjList() {
             var request = angular.copy(getPrjListRequest);
-            return $http(request).then(function(response) {
+            return $http(request).then(function (response) {
                 return response.data;
             });
         }
