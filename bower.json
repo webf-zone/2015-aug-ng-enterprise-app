@@ -1,9 +1,11 @@
 {
-    "name": "Angular Seed Project",
-    "version": "0.1.0",
-    "description": "Angular Seed Project",
+    "name": "Project-Management-ngApp",
+    "version": "1.0.0",
+    "description": "Project Management Application with AngularJS - WebF 2015 Workshop",
     "authors": [
-        "neha.gupta@claricetechnologies.com"
+        "harshal@webf.zone",
+        "kumar@webf.zone",
+        "gnehapk@gmail.com"
     ],
     "license": "Copyright",
     "private": true,
