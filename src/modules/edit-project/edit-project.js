@@ -1,15 +1,16 @@
 (function () {
     "use strict";
 
-    var app = angular.module("PrjMgmtModule");
+    var app = angular.module("ProjectManagementModule");
 
-    app.controller("ProjectManagerController", ["$scope", "$state", "prjManager", ProjectManagerController]);
+    app.controller("ProjectManagerController", ProjectManagerController);
 
-    function ProjectManagerController($scope, $state, prjManager) {
+    /*@ngInject*/
+    function ProjectManagerController($scope, $state, getProjectList) {
 
         $scope.editProject = editProject;
 
-        prjManager.getPrjList().then(function (data) {
+        getProjectList.getProjectList().then(function (data) {
             $scope.projects = data.projects;
         });
 

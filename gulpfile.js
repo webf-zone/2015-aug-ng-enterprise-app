@@ -39,6 +39,9 @@ var uglify = require("gulp-uglify");
 // SVG and sprite related modules
 var svgSprite = require("gulp-svg-sprite");
 
+// Angular related stuff
+var ngAnnotate = require("gulp-ng-annotate");
+
 // Testing related modules
 var KarmaServer = require("karma").Server;
 
@@ -51,20 +54,33 @@ var paths = (function () {
 
     var jsFiles, cssMain, resources;
 
-    resources = [];
+    resources = {
+        "../bower_components/modernizr/modernizr.js": "commons/js/",
+        "../bower_components/jquery/dist/jquery.js": "commons/js/",
+        "../bower_components/angular/angular.js": "commons/js/",
+        "../bower_components/angular-ui-router/release/angular-ui-router.js": "commons/js/",
+        "../bower_components/requirejs/require.js": "commons/js/",
+        "commons/requirejs/main.js": "commons/js/"
+    };
+
     cssMain = "commons/scss/main.scss";
 
     jsFiles = [
-        "commons/js/index.js",
-        "commons/**/*.js",
-        "modules/**/*.js"
+        "commons/js/**/*.js",
+        "api-factories/**/*.js",
+        "directives/**/*.js",
+        "entitities/**/*.js",
+        "factories/**/*.js",
+        "modules/**/*.js",
+        "services/**/*.js",
+        "stores/**/*.js",
     ];
 
     return {
         src: "./src/",
         icons: "./vendor/icons/",
         iconSprite: "sprite.symbol.svg",
-        dest: "./dist",
+        dest: "./dist/",
         resources: resources,
         cssMain: cssMain,
         jsFiles: jsFiles,
@@ -77,6 +93,7 @@ var filters = (function () {
     return {
         all: "**/*.*",
         js: "**/*.{js,jst}",
+        json: "**/*.json",
         css: "**/*.css",
         svg: "**/*.svg",
         scss: "**/*.scss",
@@ -116,7 +133,7 @@ gulp.task("svg-sprite", function () {
 
 gulp.task("copy", function () {
 
-    return gulp.src([filters.svg, filters.html, filters.images], { base: paths.cwd, cwd: paths.src })
+    return gulp.src([filters.svg, filters.html, filters.images, filters.json], { base: paths.cwd, cwd: paths.src })
         .pipe(gulp.dest(paths.dest));
 });
 
@@ -167,14 +184,15 @@ gulp.task("sass", function () {
 gulp.task("jsbundle", function () {
 
     return gulp.src(paths.jsFiles, { cwd: paths.src })
-        .pipe(concat("plugin-bundle.jst"))
+        .pipe(concat("app-bundle.js"))
+        .pipe(ngAnnotate())
         .pipe(buildMode === "dev" ? gutil.noop() : uglify())
-        .pipe(gulp.dest(paths.dest));
+        .pipe(gulp.dest(paths.dest + "commons/js/"));
 });
 
 gulp.task("watcher", function (done) {
 
-    gulp.watch([filters.svg, filters.html, filters.images], { cwd: paths.src }, function (event) {
+    gulp.watch([filters.svg, filters.html, filters.images, filters.json], { cwd: paths.src }, function (event) {
         gutil.log("Modified:", colors.yellow(event.path));
 
         runSequence("copy");

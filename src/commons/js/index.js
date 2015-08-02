@@ -2,7 +2,7 @@
 
     "use strict";
 
-    var app = angular.module("PrjMgmtModule", ["ui.router"]);
+    var app = angular.module("ProjectManagementModule", ["ui.router"]);
 
     app.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider) {
 

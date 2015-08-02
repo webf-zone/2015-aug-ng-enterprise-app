@@ -6,6 +6,8 @@ env:
 globals:
     $:  false
     angular: false
+    requirejs: false
+    require: false
 
 rules:
     indent: [2, 4, {"indentSwitchCase": true}]

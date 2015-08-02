@@ -1,0 +1,34 @@
+{
+    "projects": [
+        {
+            "name": "Project 1",
+            "desc": "Desc 1",
+            "no_of_members": 1
+        },
+        {
+            "name": "Project 2",
+            "desc": "Desc 2",
+            "no_of_members": 2
+        },
+        {
+            "name": "Project 3",
+            "desc": "Desc 3",
+            "no_of_members": 3
+        },
+        {
+            "name": "Project 4",
+            "desc": "Desc 4",
+            "no_of_members": 4
+        },
+        {
+            "name": "Project 5",
+            "desc": "Desc 5",
+            "no_of_members": 5
+        },
+        {
+            "name": "Project 6",
+            "desc": "Desc 6",
+            "no_of_members": 6
+        }
+    ]
+}

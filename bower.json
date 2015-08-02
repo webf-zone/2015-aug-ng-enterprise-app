@@ -16,6 +16,7 @@
     ],
     "dependencies": {
         "angular": "~1.4.3",
-        "foundation": "~5.5.2"
+        "foundation": "~5.5.2",
+        "requirejs": "~2.1.20"
     }
 }
