@@ -9,7 +9,9 @@
         <table class="project-list-table">
             <thead>
                 <tr>
-                    <th>Selection</th>
+                    <th>
+                        <input type="checkbox" ng-click="vm.selectProject('all')" ng-checked="vm.allProjectsSelected" />
+                    </th>
                     <th>Project Name</th>
                     <th>Description</th>
                     <th>Members</th>
@@ -17,8 +19,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="project in vm.projects">
-                    <td>Checkbox</td>
+                <tr ng-repeat="project in vm.projectList">
+                    <td>
+                        <input type="checkbox" ng-click="vm.selectProject(project)" ng-checked="vm.isProjectSelected(project)" />
+                    </td>
                     <td>{{project.name}}</td>
                     <td>{{project.description}}</td>
                     <td>{{project.memberCount}}</td>
@@ -30,6 +34,10 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+
+    <div class="columns small-12">
+        <button type="button" class="button" ng-click="vm.deleteProject()" ng-disabled="vm.isAnyProjectSelected()">Delete Projects</button>
     </div>
 
 </div>

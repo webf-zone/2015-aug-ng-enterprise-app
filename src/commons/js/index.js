@@ -22,15 +22,15 @@
                 controller: "DashboardController",
                 controllerAs: "vm"
             })
-            .state(STATES.PROJECTLIST, {
+            .state(STATES.PROJECT_LIST, {
                 url: "/project-list",
                 templateUrl: "modules/project-list/project-list.html",
                 controller: "ProjectListController",
                 controllerAs: "vm"
             })
-            .state(STATES.PROJECTEDIT, {
-                url: "/edit-project",
-                templateUrl: "modules/edit-project/edit-project.html",
+            .state(STATES.PROJECT_EDIT, {
+                url: "/edit/:projectId",
+                templateUrl: "modules/project-edit/project-edit.html",
                 controller: "ProjectManagerController"
             });
 

@@ -5,8 +5,8 @@
 
     app.constant("STATES", {
         DASHBOARD: "dashboard",
-        PROJECTLIST: "project-list",
-        PROJECTEDIT: "project-edit"
+        PROJECT_LIST: "project-list",
+        PROJECT_EDIT: "project-edit"
     });
 
 })();
