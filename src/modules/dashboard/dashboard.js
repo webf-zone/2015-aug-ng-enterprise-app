@@ -11,19 +11,12 @@
     */
     app.controller("DashboardController", DashboardController);
 
-    function DashboardController($state, projectStore) {
+    /*@ngInject*/
+    function DashboardController(STATES) {
 
         var vm = this;
 
-        vm.editProject = editProject;
-
-        projectStore.getAll().then(function (projects) {
-            vm.projects = projects;
-        });
-
-        function editProject() {
-            $state.go("edit-project");
-        }
+        vm.STATES = STATES;
 
     }
 

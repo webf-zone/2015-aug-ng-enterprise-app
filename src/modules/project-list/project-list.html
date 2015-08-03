@@ -1,0 +1,35 @@
+<div class="dashboard-container row">
+
+    <div class="columns small-12">
+        <h1>Project dashboard</h1>
+
+    </div>
+
+    <div class="columns small-12">
+        <table class="project-list-table">
+            <thead>
+                <tr>
+                    <th>Selection</th>
+                    <th>Project Name</th>
+                    <th>Description</th>
+                    <th>Members</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="project in vm.projects">
+                    <td>Checkbox</td>
+                    <td>{{project.name}}</td>
+                    <td>{{project.description}}</td>
+                    <td>{{project.memberCount}}</td>
+                    <td>
+                        <a href="#" ng-click="$event.preventDefault(); vm.editProject(project)">Edit</a>
+                        <span>|</span>
+                        <a href="#" ng-click="vm.editProject(project)">Details</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
