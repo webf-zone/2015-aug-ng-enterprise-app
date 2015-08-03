@@ -31,7 +31,8 @@
             .state(STATES.PROJECT_EDIT, {
                 url: "/edit/:projectId",
                 templateUrl: "modules/project-edit/project-edit.html",
-                controller: "ProjectManagerController"
+                controller: "ProjectManagerController",
+                controllerAs: "vm"
             });
 
     });
