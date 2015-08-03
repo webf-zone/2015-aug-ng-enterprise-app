@@ -1,7 +1,13 @@
 (function () {
-
     "use strict";
 
+    /**
+     * @module ProjectManagementModule
+     * @requires ui.router
+     * @description
+     * Top level module for this application
+     *
+    */
     var app = angular.module("ProjectManagementModule", ["ui.router"]);
 
     app.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider) {
@@ -22,6 +28,4 @@
             });
 
     }]);
-
-
 })();

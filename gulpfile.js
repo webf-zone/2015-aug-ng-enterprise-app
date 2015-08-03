@@ -242,8 +242,10 @@
     gulp.task("docs", [], function () {
         var gulpDocs = require("gulp-ngdocs");
         var options = {
-            scripts: [],
-            html5Mode: true,
+            scripts: [
+                "bower_components/angular/angular.min.js"
+            ],
+            html5Mode: false,
             startPage: "/api",
             title: "Awesome Project Management",
             image: "./src/commons/images/logo.png",
