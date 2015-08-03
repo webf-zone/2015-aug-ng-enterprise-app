@@ -4,34 +4,37 @@
         <h1>{{vm.heading}}</h1>
     </div>
 
-    <form novalidate="">
+    <div class="columns small-12">
+        <form novalidate="">
 
-        <fieldset>
-            <legend>Basic project info</legend>
+            <fieldset>
+                <legend>Basic project info</legend>
 
-            <label>
-                Project name
-                <input type="text" placeholder="Enter project name here">
-            </label>
+                <label>
+                    Project name
+                    <input type="text" placeholder="Enter project name here">
+                </label>
 
-            <label>
-                Project Description
-                <textarea placeholder="Enter project description here" rows="4"></textarea>
-            </label>
+                <label>
+                    Project Description
+                    <textarea placeholder="Enter project description here" rows="4"></textarea>
+                </label>
 
-        </fieldset>
+            </fieldset>
 
-        <fieldset>
-            <legend>Select project members</legend>
+            <fieldset>
+                <legend>Select project members</legend>
 
-            <input id="checkbox{{$index}}" type="checkbox" ng-repeat-start="member in vm.members">
-            <label for="checkbox1" ng-repeat-end="">{{member.display}}</label>
+                <input id="checkbox{{$index}}" type="checkbox" ng-repeat-start="member in vm.members">
+                <label for="checkbox1" ng-repeat-end="">{{member.display}}</label>
 
-        </fieldset>
+            </fieldset>
 
-        <button type="submit">Save</button>
+            <button type="submit">Save</button>
 
-    </form>
+        </form>
+    </div>
+
 
 
 

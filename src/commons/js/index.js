@@ -33,6 +33,12 @@
                 templateUrl: "modules/project-edit/project-edit.html",
                 controller: "ProjectManagerController",
                 controllerAs: "vm"
+            })
+            .state(STATES.ERROR, {
+                url: "/error",
+                templateUrl: "modules/error/error.html",
+                controller: "ErrorController",
+                controllerAs: "vm"
             });
 
     });

@@ -6,14 +6,17 @@
     app.controller("ProjectManagerController", ProjectManagerController);
 
     /*@ngInject*/
-    function ProjectManagerController($state) {
+    function ProjectManagerController($state, STATES) {
+
+        var stateName;
 
         /* controller instance */
         var vm = this;
 
         /* Bindable members declaration */
-        vm.heading = "Edit Project";
+        vm.heading = "";
         vm.members = [];
+        vm.isEditAction = null;
 
         init();
 
@@ -39,6 +42,19 @@
                 value: "niloy",
                 isMember: false
             }];
+
+            stateName = $state.current.name;
+
+            if (stateName === STATES.PROJECT_EDIT) {
+                vm.isEditAction = true;
+                vm.heading = "Edit Project";
+            } else if (stateName === STATES.PROJECT_ADD) {
+                vm.isEditAction = false;
+                vm.heading = "Add Project";
+            } else {
+                $state.go(STATES.ERROR);
+                return;
+            }
 
         }
 
