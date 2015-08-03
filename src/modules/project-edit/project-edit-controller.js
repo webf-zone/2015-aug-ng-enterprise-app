@@ -6,9 +6,9 @@
     app.controller("ProjectManagerController", ProjectManagerController);
 
     /*@ngInject*/
-    function ProjectManagerController($state, STATES) {
+    function ProjectManagerController($state, $stateParams, STATES, projectStore) {
 
-        var stateName;
+        var stateName, projectId;
 
         /* controller instance */
         var vm = this;
@@ -19,6 +19,7 @@
         vm.isEditAction = null;
 
         init();
+        getProjectDetails();
 
         /* Public members */
 
@@ -48,6 +49,14 @@
             if (stateName === STATES.PROJECT_EDIT) {
                 vm.isEditAction = true;
                 vm.heading = "Edit Project";
+
+                if ($stateParams.projectId) {
+                    projectId = $stateParams.projectId;
+                } else {
+                    $state.go(STATES.ERROR);
+                    return;
+                }
+
             } else if (stateName === STATES.PROJECT_ADD) {
                 vm.isEditAction = false;
                 vm.heading = "Add Project";
@@ -58,6 +67,34 @@
 
         }
 
+
+        function getProjectDetails() {
+            if (vm.isEditAction) {
+
+                projectStore.get(projectId, ["members"])
+                    .then(function (projectData) {
+
+                        vm.project = projectData;
+                        vm.newProjectName = projectData.name;
+                        vm.newDescription = projectData.description;
+
+                        projectData.members.forEach(function (member) {
+
+                            vm.members.some(function (_member) {
+                                if (member.value === _member.value) {
+                                    _member.isMember = member.isMember;
+
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            });
+
+                        });
+
+                    });
+            }
+        }
     }
 
 }());

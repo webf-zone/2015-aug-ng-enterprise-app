@@ -12,7 +12,9 @@
 
         factory = {
             get: get,
-            projects: "/api/project-list.json"
+            project: "/api/projects/:projectId.json",
+            projects: "/api/project-list.json",
+            projectMembers: "/api/projects/:projectId/members.json"
         };
 
         function get(urlIdentifier, urlParams) {

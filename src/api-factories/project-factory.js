@@ -7,16 +7,31 @@
 
     /*@ngInject*/
     function projectFactory($http, $q, urlFactory) {
-        var getPrjListRequest;
+        var getProjectsRequest;
 
 
-        getPrjListRequest = {
+        getProjectsRequest = {
             method: "GET",
             url: urlFactory.get("projects")
         };
 
         function getProjects() {
-            var request = angular.copy(getPrjListRequest);
+            var request = angular.copy(getProjectsRequest);
+
+            return $http(request).then(function (response) {
+                return response.data;
+            });
+        }
+
+        function getProject(projectId) {
+            var request;
+
+            request = {
+                method: "GET",
+                url: urlFactory.get("project", {
+                    projectId: projectId
+                })
+            };
 
             return $http(request).then(function (response) {
                 return response.data;
@@ -24,7 +39,8 @@
         }
 
         return {
-            getProjects: getProjects
+            getProjects: getProjects,
+            getProject: getProject
         };
     }
 

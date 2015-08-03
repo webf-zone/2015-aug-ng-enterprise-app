@@ -6,7 +6,7 @@
     app.service("projectStore", projectStore);
 
     /*@ngInject*/
-    function projectStore($http, $q, projectFactory, utilsFactory, projectEntity) {
+    function projectStore($http, $q, projectFactory, memberFactory, utilsFactory, projectEntity) {
 
         var store = this;
 
@@ -15,6 +15,63 @@
 
         /* Lookups are faster with Object */
         var _lookup = {};
+
+        store.get = function (projectId, queryParams) {
+            var deferred, promises, promise, project, members;
+
+            queryParams = queryParams || [];
+
+            deferred = $q.defer();
+            promises = [];
+
+            project = _lookup[projectId] || null;
+
+            if (project) {
+                /*
+                 * Serve the cached version.
+                 * What if project is a promise?
+                 */
+                if (utilsFactory.isPromise(project)) {
+                    promises.push(project);
+                }
+
+            } else {
+                promise = projectFactory.getProject(projectId)
+                    .then(function (_project) {
+                        project = projectEntity(_project);
+
+                        _list.push(project);
+                        _lookup[projectId] = project;
+                    })
+                    .catch(function () {
+                        delete _lookup[projectId];
+
+                        return $q.reject("");
+                    });
+
+                _lookup[projectId] = promise;
+                promises.push(promise);
+            }
+
+
+            if (queryParams.indexOf("members") > -1) {
+                promise = memberFactory.getProjectMembers(projectId)
+                    .then(function (_members) {
+                        members = _members;
+                    });
+                promises.push(promise);
+            }
+
+            $q.all(promises)
+                .then(function () {
+                    if (members) {
+                        project.members = members;
+                    }
+                    deferred.resolve(project);
+                });
+
+            return deferred.promise;
+        };
 
         store.getAll = function () {
 
