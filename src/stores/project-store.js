@@ -3,6 +3,15 @@
 
     var app = angular.module("ProjectManagementModule");
 
+    /**
+     * @ngdoc service
+     * @name ProjectManagementModule.service:projectStore
+     * @description
+     * store details of project entity of enterprise application
+     * it is a middle level entity which communicate with low level
+     * entities i.e. member-factory in order to provide data
+     */
+
     app.service("projectStore", projectStore);
 
     /*@ngInject*/
@@ -15,6 +24,19 @@
 
         /* Lookups are faster with Object */
         var _lookup = {};
+
+        /**
+         * @ngdoc method
+         * @name get
+         * @methodOf ProjectManagementModule.service:projectStore
+         * @description
+         * it is a modal-store that retrieves a single project or members
+         * of a project with a given project Id
+         *
+         * @param {Number} projectId Project Id
+         * @param {String} queryParams query parameters
+         * @returns {Object} promise
+         */
 
         store.get = function (projectId, queryParams) {
             var deferred, promises, promise, project, members;
@@ -72,6 +94,15 @@
 
             return deferred.promise;
         };
+
+        /**
+         * @ngdoc method
+         * @name getAll
+         * @methodOf ProjectManagementModule.service:projectStore
+         * @description
+         * retrieve details of all projects
+         * @returns {Object} promise
+         */
 
         store.getAll = function () {
 

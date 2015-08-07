@@ -6,6 +6,13 @@
 
     projectProto = Object.defineProperties({}, {});
 
+    /**
+     * @ngdoc object
+     * @name ProjectManagementModule.value:projectEntity
+     * @description
+     * create project entity for the application
+     */
+
     app.value("projectEntity", projectEntity);
 
     function projectEntity(obj) {
