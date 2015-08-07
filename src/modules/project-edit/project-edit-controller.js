@@ -3,6 +3,13 @@
 
     var app = angular.module("ProjectManagementModule");
 
+    /**
+     * @ngdoc controller
+     * @name ProjectManagementModule.controller:ProjectManagerController
+     * @description
+     * Project Manager Controller
+    */
+
     app.controller("ProjectManagerController", ProjectManagerController);
 
     /*@ngInject*/
@@ -22,7 +29,15 @@
         init();
         getProjectDetails();
 
-        /* Public members */
+        /**
+         * @ngdoc method
+         * @name saveProject
+         * @methodOf ProjectManagementModule.controller:ProjectManagerController
+         * @description
+         * Public member
+         * update existing project or add new project
+         */
+
         function saveProject() {
 
             /* Do form validations at this level */
@@ -33,7 +48,15 @@
             }
         }
 
-        /* Private members */
+        /**
+         * @ngdoc method
+         * @name init
+         * @methodOf ProjectManagementModule.controller:ProjectManagerController
+         * @description
+         * Private member
+         * initialize the controller
+         */
+
         function init() {
 
             vm.members = [{
@@ -77,6 +100,14 @@
 
         }
 
+        /**
+         * @ngdoc method
+         * @name getProjectDetails
+         * @methodOf ProjectManagementModule.controller:ProjectManagerController
+         * @description
+         * retrieve the details of project
+         */
+
         function getProjectDetails() {
             if (vm.isEditMode) {
 
@@ -105,8 +136,24 @@
             }
         }
 
+        /**
+         * @ngdoc method
+         * @name updateProject
+         * @methodOf ProjectManagementModule.controller:ProjectManagerController
+         * @description
+         * update existing project when edited
+         */
+
         function updateProject() {
         }
+
+        /**
+         * @ngdoc method
+         * @name addProject
+         * @methodOf ProjectManagementModule.controller:ProjectManagerController
+         * @description
+         * add new project
+         */
 
         function addProject() {
 

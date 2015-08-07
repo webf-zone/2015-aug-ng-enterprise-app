@@ -3,6 +3,13 @@
 
     var app = angular.module("ProjectManagementModule");
 
+    /**
+     * @ngdoc controller
+     * @name ProjectManagementModule.controller:ErrorController
+     * @description
+     * Error Controller
+    */
+
     app.controller("ErrorController", ErrorController);
 
     /*@ngInject*/

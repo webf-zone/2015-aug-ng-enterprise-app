@@ -3,6 +3,13 @@
 
     var app = angular.module("ProjectManagementModule");
 
+    /**
+     * @ngdoc service
+     * @name ProjectManagementModule.factory:utilsFactory
+     * @description
+     * contain utilities for the enterprise application
+     */
+
     app.factory("utilsFactory", utilsFactory);
 
     /*@ngInject*/
@@ -14,7 +21,18 @@
         };
     }
 
-    /* ng-resource like templated dynamic URL construction */
+    /**
+     * @ngdoc method
+     * @name _constructUrl
+     * @methodOf ProjectManagementModule.factory:utilsFactory
+     * @description
+     * create ng-resource like templated dynamic URL
+     *
+     * @param {String} url url
+     * @param {String} urlParams parameters to be added to url
+     * @returns {String} constructed url
+     */
+
     function _constructUrl(url, urlParams) {
 
         urlParams = urlParams || {};
@@ -25,6 +43,17 @@
 
         return url;
     }
+
+    /**
+     * @ngdoc method
+     * @name _isPromise
+     * @methodOf ProjectManagementModule.factory:utilsFactory
+     * @description
+     * find whether the passed object is promise or not
+     *
+     * @param {Object} obj passed object
+     * @returns {Boolean} whether it is a promise or not
+     */
 
     function _isPromise(obj) {
 

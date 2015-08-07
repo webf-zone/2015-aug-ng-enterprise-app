@@ -31,7 +31,14 @@
 
         init();
 
-        /* Bindable members */
+        /**
+         * @ngdoc method
+         * @name editProject
+         * @methodOf ProjectManagementModule.controller:ProjectListController
+         * @description
+         * redirects to edit project view
+         */
+
         function editProject(projectItem) {
 
             $state.go(STATES.PROJECT_EDIT, {
@@ -39,6 +46,14 @@
             });
 
         }
+
+        /**
+         * @ngdoc method
+         * @name selectProject
+         * @methodOf ProjectManagementModule.controller:ProjectListController
+         * @description
+         * called when project/projects are selected and update selectedProjects property
+         */
 
         function selectProject(projectItem) {
             var itemIndex;
@@ -63,17 +78,51 @@
             vm.allProjectsSelected = selectedProjects.length === vm.projectList.length;
         }
 
+        /**
+         * @ngdoc method
+         * @name isProjectSelected
+         * @methodOf ProjectManagementModule.controller:ProjectListController
+         * @description
+         * finds whether the given project is selected or not
+         * @param {Object} projectItem project to be find whether it is selected or not
+         */
+
         function isProjectSelected(projectItem) {
             return selectedProjects.indexOf(projectItem) > -1;
         }
+
+        /**
+         * @ngdoc method
+         * @name isAnyProjectSelected
+         * @methodOf ProjectManagementModule.controller:ProjectListController
+         * @description
+         * finds whether any project is selected or not
+         * @return {Boolean} true/false depending on whether any project is selected or not
+         */
 
         function isAnyProjectSelected() {
             return selectedProjects.length === 0;
         }
 
+        /**
+         * @ngdoc method
+         * @name deleteProject
+         * @methodOf ProjectManagementModule.controller:ProjectListController
+         * @description
+         * deletes a project
+         */
+
         function deleteProject() { }
 
-        /* Private members */
+        /**
+         * @ngdoc method
+         * @name init
+         * @methodOf ProjectManagementModule.controller:ProjectListController
+         * @description
+         * Private members
+         * initialize the controller
+         */
+
         function init() {
             selectedProjects = [];
 
