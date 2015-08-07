@@ -16,12 +16,22 @@
         /* Bindable members declaration */
         vm.heading = "";
         vm.members = [];
-        vm.isEditAction = null;
+        vm.isEditMode = null;
+        vm.saveProject = saveProject;
 
         init();
         getProjectDetails();
 
         /* Public members */
+        function saveProject() {
+
+            /* Do form validations at this level */
+            if (vm.isEditMode) {
+                updateProject();
+            } else {
+                addProject();
+            }
+        }
 
         /* Private members */
         function init() {
@@ -47,7 +57,7 @@
             stateName = $state.current.name;
 
             if (stateName === STATES.PROJECT_EDIT) {
-                vm.isEditAction = true;
+                vm.isEditMode = true;
                 vm.heading = "Edit Project";
 
                 if ($stateParams.projectId) {
@@ -58,7 +68,7 @@
                 }
 
             } else if (stateName === STATES.PROJECT_ADD) {
-                vm.isEditAction = false;
+                vm.isEditMode = false;
                 vm.heading = "Add Project";
             } else {
                 $state.go(STATES.ERROR);
@@ -67,9 +77,8 @@
 
         }
 
-
         function getProjectDetails() {
-            if (vm.isEditAction) {
+            if (vm.isEditMode) {
 
                 projectStore.get(projectId, ["members"])
                     .then(function (projectData) {
@@ -94,6 +103,27 @@
 
                     });
             }
+        }
+
+        function updateProject() {
+        }
+
+        function addProject() {
+
+            var request = {
+                name: vm.newProjectName,
+                description: vm.newDescription,
+                members: null
+            };
+
+            request.members = vm.members.reduce(function (list, member) {
+                if (member.isMember) {
+                    list.push(member.value);
+                }
+            }, []);
+
+            return projectStore.add(request);
+
         }
     }
 
