@@ -1,24 +1,25 @@
 {
-    "name": "Project-Management-ngApp",
-    "version": "1.0.0",
-    "description": "Project Management Application with AngularJS - WebF 2015 Workshop",
-    "authors": [
-        "harshal@webf.zone",
-        "kumar@webf.zone",
-        "gnehapk@gmail.com"
-    ],
-    "license": "Copyright",
-    "private": true,
-    "ignore": [
-        "**/.*",
-        "node_modules",
-        "bower_components",
-        "test",
-        "tests"
-    ],
-    "dependencies": {
-        "angular": "~1.4.3",
-        "foundation": "~5.5.2",
-        "requirejs": "~2.1.20"
-    }
+  "name": "Project-Management-ngApp",
+  "version": "1.0.0",
+  "description": "Project Management Application with AngularJS - WebF 2015 Workshop",
+  "authors": [
+    "harshal@webf.zone",
+    "kumar@webf.zone",
+    "gnehapk@gmail.com"
+  ],
+  "license": "Copyright",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.3",
+    "angular-ui-router": "~0.2.15",
+    "foundation": "~5.5.2",
+    "requirejs": "~2.1.20"
+  }
 }
