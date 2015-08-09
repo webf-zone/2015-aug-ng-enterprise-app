@@ -17,13 +17,14 @@
 
         return {
             constructUrl: _constructUrl,
-            isPromise: _isPromise
+            isPromise: _isPromise,
+            setSubstraction: _setSubstraction
         };
     }
 
     /**
      * @ngdoc method
-     * @name _constructUrl
+     * @name constructUrl
      * @methodOf ProjectManagementModule.factory:utilsFactory
      * @description
      * create ng-resource like templated dynamic URL
@@ -46,7 +47,7 @@
 
     /**
      * @ngdoc method
-     * @name _isPromise
+     * @name isPromise
      * @methodOf ProjectManagementModule.factory:utilsFactory
      * @description
      * find whether the passed object is promise or not
@@ -64,6 +65,19 @@
         }
 
         return isItPromise;
+    }
+
+    function _setSubstraction(A, B) {
+        return A.filter(function (x) {
+
+            var searched;
+
+            searched = B.every(function (y) {
+                return x !== y;
+            });
+
+            return searched;
+        });
     }
 
 })();

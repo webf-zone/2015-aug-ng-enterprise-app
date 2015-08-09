@@ -187,6 +187,91 @@
 
             return deferred.promise;
         };
+
+        store.update = function (projectInfo) {
+            var deferred = $q.defer(), project;
+
+            store.get(projectInfo.projectId, ["members"])
+                .then(function (_project) {
+                    var request;
+
+                    project = _project;
+
+                    request = {
+                        projectId: project.projectId
+                    };
+
+                    /* Check if project name is changed */
+                    if (project.name !== projectInfo.name) {
+                        request.name = projectInfo.name;
+                    }
+
+                    /* Check if project description is changed */
+                    if (project.description !== projectInfo.description) {
+                        request.description = projectInfo.description;
+                    }
+
+                    return projectFactory.updateProject(request);
+
+                })
+                .then(function () {
+
+                    var promises, membersToAdd = [], membersToDelete = [], _members;
+
+                    project.memberCount = project.members.length;
+
+                    /* Update name */
+                    if (projectInfo.name) {
+                        project.name = projectInfo.name;
+                    }
+
+                    /* Update description */
+                    if (projectInfo.description) {
+                        project.description = projectInfo.description;
+                    }
+
+                    /*
+                        This is tricky solution - n^2 complexity
+                        Mathematical set intersection operation.
+                    */
+                    if (projectInfo.members) {
+
+                        _members = project.members.map(function (member) {
+                            return member.value;
+                        });
+
+                        membersToDelete = utilsFactory.setSubstraction(_members, projectInfo.members);
+                        membersToAdd = utilsFactory.setSubstraction(projectInfo.members, _members);
+                    }
+
+                    promises = membersToDelete.map(function (memberValue) {
+                        return memberFactory.removeProjectMember(project.projectId, memberValue);
+                    });
+
+                    Array.prototype.push.apply(promises, membersToAdd.map(function (memberValue) {
+                        return memberFactory.addProjectMember(project.projectId, memberValue);
+                    }));
+
+                    return $q.all(promises)
+                        .catch(function () {
+                            return $q.reject({
+                                reasons: ["Member could not be updated."]
+                            });
+                        });
+
+                })
+                .then(function () {
+                    deferred.resolve();
+                })
+                .catch(function (error) {
+                    deferred.reject(error);
+                });
+
+
+            return deferred.promise;
+        };
+
+
     }
 
 })();

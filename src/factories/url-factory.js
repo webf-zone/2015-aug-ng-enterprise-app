@@ -21,6 +21,7 @@
             get: get,
             project: "/api/projects/:projectId.json",
             projects: "/api/project-list.json",
+            projectMember: "/api/projects/:projectId/members/:memberValue.json",
             projectMembers: "/api/projects/:projectId/members.json"
         };
 

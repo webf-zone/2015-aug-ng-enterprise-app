@@ -88,10 +88,25 @@
                 });
         }
 
+        function updateProject(projectData) {
+
+            var request = {
+                method: "PUT",
+                url: urlFactory.get("project", { projectId: projectData.projectId }),
+                data: {
+                    name: projectData.name,
+                    desc: projectData.description
+                }
+            };
+
+            return $http(request);
+        }
+
         return {
             getProjects: getProjects,
             getProject: getProject,
-            addProject: addProject
+            addProject: addProject,
+            updateProject: updateProject
         };
     }
 

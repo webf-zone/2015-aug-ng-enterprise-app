@@ -34,3 +34,5 @@ rules:
             capIsNew: false
     no-underscore-dangle:
         - 0
+    no-alert:
+        - 0

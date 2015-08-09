@@ -38,12 +38,42 @@
             };
 
             return $http(request).then(function (response) {
-                return response.data;
+                return response.data || [];
             });
         }
 
+        function addProjectMember(projectId, memberValue) {
+            return _updateProjectMember("PUT", projectId, memberValue);
+        }
+
+        function removeProjectMember(projectId, memberValue) {
+            return _updateProjectMember("DELETE", projectId, memberValue);
+        }
+
+        function _updateProjectMember(method, projectId, memberValue) {
+
+            var request = {
+                method: method,
+                url: urlFactory.get("projectMember", {
+                    projectId: projectId,
+                    memberValue: memberValue
+                }),
+                data: {}
+            };
+
+            return $http(request)
+                .then(function (response) {
+                    return response.data;
+                })
+                .catch(function () {
+                    return $q.reject("Failed");
+                });
+        }
+
         return {
-            getProjectMembers: getProjectMembers
+            getProjectMembers: getProjectMembers,
+            addProjectMember: addProjectMember,
+            removeProjectMember: removeProjectMember
         };
     }
 })();

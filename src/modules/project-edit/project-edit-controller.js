@@ -25,6 +25,7 @@
         vm.members = [];
         vm.isEditMode = null;
         vm.saveProject = saveProject;
+        vm.STATES = STATES;
 
         init();
         getProjectDetails();
@@ -40,11 +41,27 @@
 
         function saveProject() {
 
+            var request = {
+                projectId: projectId,
+                name: vm.newProjectName,
+                description: vm.newDescription,
+                members: null
+            };
+
+            request.members = vm.members.reduce(function (list, member) {
+                if (member.isMember) {
+                    list.push(member.value);
+                }
+
+                return list;
+            }, []);
+
+
             /* Do form validations at this level */
             if (vm.isEditMode) {
-                updateProject();
+                updateProject(request);
             } else {
-                addProject();
+                addProject(request);
             }
         }
 
@@ -144,7 +161,14 @@
          * update existing project when edited
          */
 
-        function updateProject() {
+        function updateProject(request) {
+
+            return projectStore.update(request)
+                .then(function () {
+                    window.alert("Project updated successfully");
+                    $state.go(STATES.PROJECT_LIST);
+                });
+
         }
 
         /**
@@ -155,23 +179,13 @@
          * add new project
          */
 
-        function addProject() {
+        function addProject(request) {
 
-            var request = {
-                name: vm.newProjectName,
-                description: vm.newDescription,
-                members: null
-            };
-
-            request.members = vm.members.reduce(function (list, member) {
-                if (member.isMember) {
-                    list.push(member.value);
-                }
-
-                return list;
-            }, []);
-
-            return projectStore.add(request);
+            return projectStore.add(request)
+                .then(function () {
+                    window.alert("Project added successfully");
+                    $state.go(STATES.PROJECT_LIST);
+                });
 
         }
     }
