@@ -34,6 +34,12 @@
                 controller: "ProjectManagerController",
                 controllerAs: "vm"
             })
+            .state(STATES.PROJECT_ADD, {
+                url: "/add",
+                templateUrl: "modules/project-edit/project-edit.html",
+                controller: "ProjectManagerController",
+                controllerAs: "vm"
+            })
             .state(STATES.ERROR, {
                 url: "/error",
                 templateUrl: "modules/error/error.html",

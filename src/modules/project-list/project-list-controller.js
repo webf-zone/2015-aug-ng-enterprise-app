@@ -28,6 +28,7 @@
         vm.isProjectSelected = isProjectSelected;
         vm.isAnyProjectSelected = isAnyProjectSelected;
         vm.deleteProject = deleteProject;
+        vm.addProject = addProject;
 
         init();
 
@@ -113,6 +114,10 @@
          */
 
         function deleteProject() { }
+
+        function addProject() {
+            $state.go(STATES.PROJECT_ADD);
+        }
 
         /**
          * @ngdoc method

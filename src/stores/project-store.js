@@ -131,14 +131,21 @@
                  */
                 store.getAll._calledBefore = projectFactory.getProjects()
                     .then(function (data) {
-                        _list = data.projects.map(function (item) {
 
+                        if (!_list) {
+                            _list = [];
+                        }
+
+                        data.projects.forEach(function (item) {
                             var project;
 
                             project = projectEntity(item);
-                            _lookup[project.projectId] = project;
 
-                            return project;
+                            if (Object.hasOwnProperty(project.projectId) === false) {
+                                _lookup[project.projectId] = project;
+                                _list.push(project);
+                            }
+
                         });
 
                         store.getAll._calledBefore = true;
@@ -155,6 +162,31 @@
             return deferred.promise;
         };
 
+        /*
+         * projectInfo - name, description, members
+         */
+        store.add = function (projectInfo) {
+            var deferred;
+
+            deferred = $q.defer();
+
+            projectFactory.addProject(projectInfo)
+                .then(function (_project) {
+
+                    var project = projectEntity(_project);
+
+                    _lookup[project.projectId] = project;
+                    _list.push(project);
+
+                    deferred.resolve();
+
+                })
+                .catch(function (error) {
+                    deferred.reject(error);
+                });
+
+            return deferred.promise;
+        };
     }
 
 })();

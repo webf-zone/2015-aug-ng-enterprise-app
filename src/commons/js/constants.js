@@ -12,6 +12,7 @@
 
     app.constant("STATES", {
         DASHBOARD: "dashboard",
+        PROJECT_ADD: "project-add",
         PROJECT_LIST: "project-list",
         PROJECT_EDIT: "project-edit",
         ERROR: "error"

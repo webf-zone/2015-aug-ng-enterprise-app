@@ -167,6 +167,8 @@
                 if (member.isMember) {
                     list.push(member.value);
                 }
+
+                return list;
             }, []);
 
             return projectStore.add(request);

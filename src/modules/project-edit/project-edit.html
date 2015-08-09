@@ -26,7 +26,7 @@
                 <legend>Select project members</legend>
 
                 <input id="checkbox{{$index}}" type="checkbox" ng-model="member.isMember" ng-repeat-start="member in vm.members">
-                <label for="checkbox1" ng-repeat-end="">{{member.display}}</label>
+                <label for="checkbox{{$index}}" ng-repeat-end="">{{member.display}}</label>
 
             </fieldset>
 

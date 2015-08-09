@@ -65,10 +65,43 @@
             });
         }
 
+        function addProject(projectInfo) {
+
+            var request = {
+                method: "POST",
+                url: urlFactory.get("projects"),
+                data: {
+                    name: projectInfo.name,
+                    desc: projectInfo.description,
+                    members: projectInfo.members
+                }
+            };
+
+            return $http(request)
+                .then(function () {
+                    return {
+                        "id": getNextNumber(),
+                        "project_name": projectInfo.name,
+                        "desc": projectInfo.description,
+                        "no_of_members": projectInfo.members.length
+                    };
+                });
+        }
+
         return {
             getProjects: getProjects,
-            getProject: getProject
+            getProject: getProject,
+            addProject: addProject
         };
+    }
+
+    function getNextNumber() {
+
+        if (getNextNumber.number) {
+            getNextNumber.number = 10;
+        }
+
+        return getNextNumber.number++;
     }
 
 
