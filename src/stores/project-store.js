@@ -218,8 +218,6 @@
 
                     var promises, membersToAdd = [], membersToDelete = [], _members;
 
-                    project.memberCount = project.members.length;
-
                     /* Update name */
                     if (projectInfo.name) {
                         project.name = projectInfo.name;

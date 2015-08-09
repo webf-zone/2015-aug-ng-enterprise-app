@@ -4,49 +4,37 @@
             "id": 1,
             "project_name": "Angular Basics",
             "desc": "Desc 1",
-            "no_of_members": 1
+            "activity": 1
         },
         {
             "id": 2,
             "project_name": "Project 2",
             "desc": "Desc 2",
-            "no_of_members": 2
+            "activity": 1
         },
         {
             "id": 3,
             "project_name": "Project 3",
             "desc": "Desc 3",
-            "no_of_members": 3
+            "activity": 2
         },
         {
             "id": 4,
             "project_name": "Project 4",
             "desc": "Desc 4",
-            "no_of_members": 4
+            "activity": 4
         },
         {
             "id": 5,
             "project_name": "Project 5",
             "desc": "Desc 5",
-            "no_of_members": 5
+            "activity": 1
         },
         {
             "id": 6,
             "project_name": "Project 6",
             "desc": "Desc 6",
-            "no_of_members": 6
-        },
-        {
-            "id": 7,
-            "project_name": "Project 7",
-            "desc": "Desc 7",
-            "no_of_members": 2
-        },
-        {
-            "id": 8,
-            "project_name": "Project 8",
-            "desc": "Desc 9",
-            "no_of_members": 4
+            "activity": 3
         }
     ]
 }

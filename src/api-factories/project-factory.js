@@ -80,10 +80,10 @@
             return $http(request)
                 .then(function () {
                     return {
-                        "id": getNextNumber(),
+                        "id": 1,
                         "project_name": projectInfo.name,
                         "desc": projectInfo.description,
-                        "no_of_members": projectInfo.members.length
+                        "activity": 2
                     };
                 });
         }
@@ -109,15 +109,5 @@
             updateProject: updateProject
         };
     }
-
-    function getNextNumber() {
-
-        if (getNextNumber.number) {
-            getNextNumber.number = 10;
-        }
-
-        return getNextNumber.number++;
-    }
-
 
 })();

@@ -33,8 +33,8 @@
                 writable: true
             },
 
-            memberCount: {
-                value: obj.no_of_members || [],
+            starRating: {
+                value: obj.activity || [],
                 writable: true
             },
 
